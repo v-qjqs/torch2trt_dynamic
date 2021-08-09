@@ -1,7 +1,6 @@
 from torch2trt_dynamic.torch2trt_dynamic import (get_arg, tensorrt_converter,
                                                  trt_)
 
-
 @tensorrt_converter('torch.cat')
 def convert_cat(ctx):
     inputs = ctx.method_args[0]

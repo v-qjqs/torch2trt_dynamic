@@ -12,4 +12,6 @@ if not osp.exists(dir_path):
 
 
 def load_plugin_library():
-    ctypes.CDLL(osp.join(dir_path, 'libamirstan_plugin.so'))
+    # ctypes.CDLL(osp.join(dir_path, 'libamirstan_plugin.so'))
+    dir_path = '/home/SENSETIME/liqiaofei1/Desktop/pro/torch2trt/torch2trt_dynamic/build/lib.linux-x86_64-3.7/'
+    ctypes.CDLL(osp.join(dir_path, 'libtorch2trt_dynamic.cpython-37m-x86_64-linux-gnu.so'))

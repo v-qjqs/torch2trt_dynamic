@@ -19,12 +19,12 @@ def convert_where(ctx):
     output._trt = output_trt
 
 
-@tensorrt_converter('torch.Tensor.where')
-def convert_Tensor_where(ctx):
-    x = ctx.method_args[0]
-    condition = get_arg(ctx, 'condition', pos=1, default=None)
-    y = get_arg(ctx, 'y', pos=2, default=None)
+# @tensorrt_converter('torch.Tensor.where')
+# def convert_Tensor_where(ctx):
+#     x = ctx.method_args[0]
+#     condition = get_arg(ctx, 'condition', pos=1, default=None)
+#     y = get_arg(ctx, 'y', pos=2, default=None)
 
-    ctx.method_args = [condition, x, y]
-    ctx.method_kwargs = {}
-    convert_where(ctx)
+#     ctx.method_args = [condition, x, y]
+#     ctx.method_kwargs = {}
+#     convert_where(ctx)

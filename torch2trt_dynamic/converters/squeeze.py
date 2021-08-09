@@ -2,7 +2,7 @@ import torch
 from torch2trt_dynamic.torch2trt_dynamic import (get_arg, tensorrt_converter,
                                                  trt_)
 
-from .identity import convert_identity
+# from .identity import convert_identity
 
 
 @tensorrt_converter('torch.Tensor.squeeze')
@@ -10,6 +10,7 @@ from .identity import convert_identity
 def convert_squeeze(ctx):
 
     input = ctx.method_args[0]
+    output = ctx.method_return
     dim = get_arg(ctx, 'dim', pos=1, default=None)
     if dim is None:
         dim = list(
@@ -17,14 +18,15 @@ def convert_squeeze(ctx):
     else:
         if input.shape[dim] != 1:
             ctx.method_args = [input]
-            convert_identity(ctx)
+            # convert_identity(ctx)
+            input_trt = trt_(ctx.network, input)
+            output._trt = input_trt
             return
         if dim < 0:
             dim = len(input.shape) + dim
         dim = [dim]
     input_trt = trt_(ctx.network, input)
     shape_trt = ctx.network.add_shape(input_trt).get_output(0)
-    output = ctx.method_return
 
     reverse_dim = list(filter(lambda x: x not in dim, range(len(input.shape))))
     reverse_dim_trt = trt_(

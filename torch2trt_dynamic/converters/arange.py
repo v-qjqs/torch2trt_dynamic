@@ -68,9 +68,9 @@ def convert_arange(ctx):
             trt.ElementWiseOperation.FLOOR_DIV).get_output(0)
 
         # length to int
-        length_trt = trt_cast(ctx.network, length_trt, trt.DataType.INT32)
+        # length_trt = trt_cast(ctx.network, length_trt, trt.DataType.INT32)
 
-        # start rank 0
+        # set start_trt rank 0, since LINSPACE requires that input 1 have rank 0
         layer = ctx.network.add_shuffle(start_trt)
         layer.reshape_dims = tuple()
         start_trt = layer.get_output(0)

@@ -83,6 +83,7 @@ def torch_dim_to_trt_axes(dim):
     axes = 0
     for d in dim:
         axes |= 1 << (d)
+        # axes |= 1 << (d - 1)  # -1 to remove batch dimension
 
     return axes
 
@@ -382,6 +383,8 @@ class ConversionContext(object):
             ConversionHook(self, method, converter)
             for method, converter in converters.items()
         ]
+        for key in CONVERTERS.keys():
+            print('key: ', key)
 
     def __enter__(self):
         for hook in self.hooks:

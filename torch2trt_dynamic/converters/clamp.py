@@ -20,6 +20,10 @@ def __add_clamp(network, trt_input, val, op):
         val_trt = layer.get_output(0)
 
         # convert 2 / to prevent warning, might remove in future version
+        """
+        WARNING: IElementWiseLayer with inputs (Unnamed Layer* 4278) [Slice]_output and (Unnamed Layer* 4280) [Shuffle]_output:
+            first input has type Float but second input has type Int32.
+        """
         layer = network.add_elementwise(
             val_trt, trt_(network, torch.zeros((1, ), dtype=torch.float32)),
             trt.ElementWiseOperation.SUM)
@@ -45,80 +49,80 @@ def __add_clamp(network, trt_input, val, op):
 # CLAMP_MIN
 
 
-@tensorrt_converter('torch.clamp_min')
-@tensorrt_converter('torch.Tensor.clamp_min')
-def convert_clamp_min(ctx):
-    input = ctx.method_args[0]
-    input_trt = trt_(ctx.network, input)
-    val = get_arg(ctx, 'min', pos=1, default=0)
-    # val = ctx.method_args[1]
-    output = ctx.method_return
+# @tensorrt_converter('torch.clamp_min')
+# @tensorrt_converter('torch.Tensor.clamp_min')
+# def convert_clamp_min(ctx):
+#     input = ctx.method_args[0]
+#     input_trt = trt_(ctx.network, input)
+#     val = get_arg(ctx, 'min', pos=1, default=0)
+#     # val = ctx.method_args[1]
+#     output = ctx.method_return
 
-    layer = __add_clamp(ctx.network, input_trt, val,
-                        trt.ElementWiseOperation.MAX)
+#     layer = __add_clamp(ctx.network, input_trt, val,
+#                         trt.ElementWiseOperation.MAX)
 
-    output._trt = layer.get_output(0)
-
-
-class TorchClampMin(torch.nn.Module):
-
-    def forward(self, x):
-        return torch.clamp_min(x, -0.1)
+#     output._trt = layer.get_output(0)
 
 
-@add_module_test(torch.float32, torch.device('cuda'), [(1, 3, 224, 224)])
-def test_torch_clamp_min():
-    return TorchClampMin()
+# class TorchClampMin(torch.nn.Module):
+
+#     def forward(self, x):
+#         return torch.clamp_min(x, -0.1)
 
 
-class TensorClampMin(torch.nn.Module):
+# @add_module_test(torch.float32, torch.device('cuda'), [(1, 3, 224, 224)])
+# def test_torch_clamp_min():
+#     return TorchClampMin()
 
-    def forward(self, x):
-        return x.clamp_min(-0.1)
+
+# class TensorClampMin(torch.nn.Module):
+
+#     def forward(self, x):
+#         return x.clamp_min(-0.1)
 
 
-@add_module_test(torch.float32, torch.device('cuda'), [(1, 3, 224, 224)])
-def test_tensor_clamp_min():
-    return TensorClampMin()
+# @add_module_test(torch.float32, torch.device('cuda'), [(1, 3, 224, 224)])
+# def test_tensor_clamp_min():
+#     return TensorClampMin()
 
 
 # CLAMP_MAX
 
 
-@tensorrt_converter('torch.clamp_max')
-@tensorrt_converter('torch.Tensor.clamp_max')
-def convert_clamp_max(ctx):
-    input = ctx.method_args[0]
-    input_trt = trt_(ctx.network, input)
-    val = get_arg(ctx, 'max', pos=1, default=0)
-    output = ctx.method_return
+# @tensorrt_converter('torch.clamp_max')
+# @tensorrt_converter('torch.Tensor.clamp_max')
+# def convert_clamp_max(ctx):
+#     input = ctx.method_args[0]
+#     input_trt = trt_(ctx.network, input)
+#     val = get_arg(ctx, 'max', pos=1, default=0)
+#     output = ctx.method_return
 
-    layer = __add_clamp(ctx.network, input_trt, val,
-                        trt.ElementWiseOperation.MIN)
+#     layer = __add_clamp(ctx.network, input_trt, val,
+#                         trt.ElementWiseOperation.MIN)
 
-    output._trt = layer.get_output(0)
-
-
-class TorchClampMax(torch.nn.Module):
-
-    def forward(self, x):
-        return torch.clamp_max(x, 0.1)
+#     output._trt = layer.get_output(0)
 
 
-@add_module_test(torch.float32, torch.device('cuda'), [(1, 3, 224, 224)])
-def test_torch_clamp_max():
-    return TorchClampMax()
+# class TorchClampMax(torch.nn.Module):
+
+#     def forward(self, x):
+#         return torch.clamp_max(x, 0.1)
 
 
-class TensorClampMax(torch.nn.Module):
+# @add_module_test(torch.float32, torch.device('cuda'), [(1, 3, 224, 224)])
+# def test_torch_clamp_max():
+#     return TorchClampMax()
 
-    def forward(self, x):
-        return x.clamp_max(0.1)
+
+# class TensorClampMax(torch.nn.Module):
+
+#     def forward(self, x):
+#         return x.clamp_max(0.1)
 
 
-@add_module_test(torch.float32, torch.device('cuda'), [(1, 3, 224, 224)])
-def test_tensor_clamp_max():
-    return TensorClampMax()
+# @add_module_test(torch.float32, torch.device('cuda'), [(1, 3, 224, 224)])
+# def test_tensor_clamp_max():
+#     return TensorClampMax()
 
 
 # CLAMP

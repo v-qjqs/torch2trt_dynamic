@@ -15,6 +15,8 @@ def convert_Tensor_to(ctx):
         data_type = output.dtype
         if data_type == torch.int64:
             data_type = torch.int32
+        elif data_type == torch.float64:
+            data_type == torch.float32
 
         output_trt = trt_cast(ctx.network, input_trt, data_type)
         output._trt = output_trt
