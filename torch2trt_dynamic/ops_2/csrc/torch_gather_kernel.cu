@@ -5,7 +5,7 @@
 #include <cmath>
 
 #include "cuda_util.hpp"
-#include "torch_gather.hpp"
+// #include "torch_gather.hpp"
 
 
 // using namespace amirstan::cuda;

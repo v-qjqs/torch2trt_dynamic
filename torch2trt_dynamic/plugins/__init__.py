@@ -6,6 +6,7 @@ from .create_groupnorm_plugin import create_groupnorm_plugin
 from .create_layernorm_plugin import create_layernorm_plugin
 from .create_meshgrid_plugin import create_meshgrid_plugin
 from .create_nms_plugin import create_nms_plugin
+from .create_batch_nms_plugin import create_batch_nms_plugin
 from .create_repeatdim_plugin import create_repeat_plugin
 from .create_roiextractor_plugin import create_roiextractor_plugin
 from .create_roipool_plugin import create_roipool_plugin
@@ -25,7 +26,8 @@ __all__ = [
     'create_torchflip_plugin', 'create_torchcummaxmin_plugin',
     'create_torchcum_plugin', 'create_dcn_plugin', 'create_nms_plugin',
     'create_roiextractor_plugin', 'create_roipool_plugin',
-    'create_torchembedding_plugin', 'create_torchbmm_plugin'
+    'create_torchembedding_plugin', 'create_torchbmm_plugin',
+    'create_batch_nms_plugin'
 ]
 
 load_plugin_library()

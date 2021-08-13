@@ -24,13 +24,15 @@ from .min import convert_min
 from .max import convert_max
 from .topk import convert_topk
 from .squeeze import convert_squeeze
-from .gather import convert_gather
+# from .gather import convert_gather
 from .sub import convert_sub
 from .clamp import convert_clamp
 from .unary import convert_exp
 from .logical import convert_greater, convert_less
 from .to import convert_Tensor_to
 from .where import convert_where
+# batched_nms
+from .batched_nms import convert_batchednms
 
 __all__ = []
 # Conv2d
@@ -82,7 +84,7 @@ __all__ += ['convert_topk']
 # squeeze
 __all__ += ['convert_squeeze']
 # gather
-__all__ += ['convert_gather']
+# __all__ += ['convert_gather']
 # sub
 __all__ += ['convert_sub']
 # clamp
@@ -95,3 +97,5 @@ __all__ += ['convert_greater', 'convert_less']
 __all__ += ['convert_Tensor_to']
 # where
 __all__ += ['convert_where']
+# batched_nms
+__all__ += ['convert_batchednms']

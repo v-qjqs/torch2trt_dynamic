@@ -1,4 +1,5 @@
 # include "torch_gather_plugin.hpp"
+# include "nms_plugin.hpp"
 # include "trt_plugins.hpp"
 
 namespace amirstan {
@@ -21,7 +22,7 @@ namespace plugin {
 // REGISTER_TENSORRT_PLUGIN(TorchCumPluginDynamicCreator);
 // REGISTER_TENSORRT_PLUGIN(TorchEmbeddingPluginDynamicCreator);
 REGISTER_TENSORRT_PLUGIN(TorchGatherPluginDynamicCreator);
-// REGISTER_TENSORRT_PLUGIN(TorchNMSPluginDynamicCreator);
+REGISTER_TENSORRT_PLUGIN(TorchNMSPluginDynamicCreator);
 }  // namespace plugin
 }  // namespace amirstan
 

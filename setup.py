@@ -150,17 +150,14 @@ def get_extensions():
     define_macros = []
     extra_compile_args = {'cxx': []}
 
-    # include_path = os.path.abspath('./torch2trt_dynamic/ops/include/common')
-    include_trt_path = os.path.abspath('./torch2trt_dynamic/ops/include')
+    include_path = os.path.abspath('./torch2trt_dynamic/ops/csrc/common/cuda')
+    include_trt_path = os.path.abspath('./torch2trt_dynamic/ops/csrc/tensorrt')
     include_dirs.append(include_trt_path)
-    # include_dirs.append(include_path)
+    include_dirs.append(include_path)
     include_dirs.append(os.path.join(tensorrt_path, 'include'))
     include_dirs += include_paths(cuda=True)
 
-    op_files = glob.glob('./torch2trt_dynamic/ops/csrc/*')
-    # op_files = glob.glob('/home/SENSETIME/liqiaofei1/Desktop/pro/torch2trt/torch2trt_dynamic/torch2trt_dynamic/ops/csrc/*')
-    # define_macros += [('MMCV_WITH_CUDA', None)]
-    # define_macros += [('MMCV_WITH_TRT', None)]
+    op_files = glob.glob('./torch2trt_dynamic/ops/csrc/tensorrt/plugins/*')
     define_macros += [('TRT_WITH_OPS', None)]
     cuda_args = os.getenv('MMCV_CUDA_ARGS')  # TODO
     extra_compile_args['nvcc'] = [cuda_args] if cuda_args else []
@@ -171,7 +168,7 @@ def get_extensions():
 
     from setuptools import Extension
     from torch.utils.cpp_extension import CppExtension, CUDAExtension
-    ext_ops = CUDAExtension(
+    ext_ops = Extension(
         name=ext_name,
         sources=op_files,
         include_dirs=include_dirs,
